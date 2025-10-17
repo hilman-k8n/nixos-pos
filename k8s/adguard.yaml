@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adguard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: adguard
+  template:
+    metadata:
+      labels:
+        app: adguard
+    spec:
+      nodeSelector:
+        node-group: dns
+      tolerations:
+      - key: "node-group"
+        operator: "Equal"
+        value: "dns"
+        effect: "NoSchedule"
+      containers:
+      - name: adguard
+        image: adguard/adguardhome:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 53
+        - containerPort: 80
+        - containerPort: 3000
+        volumeMounts:
+        - name: adguardhome-work
+          mountPath: /opt/adguardhome/work
+        - name: adguardhome-conf
+          mountPath: /opt/adguardhome/conf
+      volumes:
+      - name: adguardhome-work
+        hostPath:
+          path: /opt/k3s/adguardhome/work
+      - name: adguardhome-conf
+        hostPath:
+          path: /opt/k3s/adguardhome/conf
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: adguard
+spec:
+  type: NodePort
+  selector:
+    app: adguard
+  ports:
+  - name: dns-udp
+    port: 53
+    targetPort: 53
+    nodePort: 30053
+    protocol: UDP
+  - name: http
+    port: 80
+    targetPort: 80
+    nodePort: 30080
+  - name: web-ui
+    port: 3000
+    targetPort: 3000
+    nodePort: 30300
+
