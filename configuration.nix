@@ -28,7 +28,7 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "kasir-pky-01"; # Define your hostname.
+  networking.hostName = "lenovo-p330-1"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -87,10 +87,9 @@ in
     enable = true;
   };
   # Enable CUPS to print documents.
-  services.printing.enable = true;
+  services.printing.enable = false;
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -140,6 +139,7 @@ in
     gnomeExtensions.lock-keys
     gnomeExtensions.onedrive
     gnomeExtensions.net-speed-simplified
+    gnome-settings-daemon
     htop
     jq
     k9s
@@ -172,6 +172,7 @@ in
   # };
 
   programs.vim = {
+    enable = true;
     defaultEditor = true;
     package = pkgs.vim-full;
   };
@@ -198,10 +199,17 @@ in
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
   services.tailscale.enable = true;
-  services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
+  services.k3s = {
+    enable = true;
+    role = "server";
+    extraFlags = [
+      " --node-label node-group=dns"
+      " --node-taint node-group=dns:NoSchedule"
+    ];
+  };
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [];
-  # networking.firewall.allowedUDPPorts = [];
+  networking.firewall.allowedTCPPorts = [6443 30053 30080 30300];
+  networking.firewall.allowedUDPPorts = [30053];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
