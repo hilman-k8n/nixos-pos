@@ -204,7 +204,17 @@ in
     role = "server";
     extraFlags = [
       " --node-label node-group=dns"
+      " --service-node-port-range=30000-32767"
     ];
+  };
+
+  services.coredns = {
+    enable = true;
+    config = ''
+.:53 {
+  forward . 127.0.0.1:30053
+}
+'';
   };
   # Open ports in the firewall.
   networking = {
