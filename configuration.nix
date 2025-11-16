@@ -204,12 +204,16 @@ in
     role = "server";
     extraFlags = [
       " --node-label node-group=dns"
-      " --node-taint node-group=dns:NoSchedule"
     ];
   };
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [6443 30053 30080 30300];
-  networking.firewall.allowedUDPPorts = [30053];
+  networking = {
+    firewall = {
+      enable = false;
+      allowedTCPPorts = [6443 30053 8080];
+      allowedUDPPorts = [30053];
+    };
+  };
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
