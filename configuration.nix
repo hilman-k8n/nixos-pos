@@ -214,6 +214,16 @@ in
 .:53 {
   forward . 127.0.0.1:30053
 }
+
+lan:53 {
+  log
+
+  template IN A lan {
+    match ".*"
+    answer "{{.Name}} 60 IN A 192.168.100.101"
+    answer "{{.Name}} 60 IN A 192.168.100.102"
+  }
+}
 '';
   };
   # Open ports in the firewall.
