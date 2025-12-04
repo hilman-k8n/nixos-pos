@@ -205,6 +205,7 @@ in
     extraFlags = [
       " --node-label node-group=dns"
       " --service-node-port-range=30000-32767"
+      " --kubelet-arg=eviction-hard=nodefs.available<0%"
     ];
   };
 
@@ -233,6 +234,10 @@ lan:53 {
       allowedTCPPorts = [6443 30053 8080];
       allowedUDPPorts = [30053];
     };
+    nameservers = [
+      "1.1.1.1"
+      "9.9.9.9"
+    ];
   };
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
