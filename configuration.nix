@@ -56,24 +56,23 @@ in
     LC_TIME = "id_ID.UTF-8";
   };
 
-  # Enable the X11 windowing system.
-  services.xserver = {
-    enable = true;
+  services.desktopManager = {
+    gnome.enable = true;
   };
-
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm = {
-    enable = true;
-    autoSuspend = false;
+  services.displayManager = {
+    gdm = {
+      enable = true;
+      autoSuspend = false;
+      autoLogin = {
+        delay = 5;
+      };
+    };
     autoLogin = {
-      delay = 5;
+      enable = true;
+      user = "guest";
     };
   };
-  services.xserver.desktopManager.gnome.enable = true;
-  services.displayManager.autoLogin = {
-    enable = true;
-    user = "guest";
-  };   
+
 
   # Configure keymap in X11
   services.xserver = {
@@ -137,7 +136,6 @@ in
     gnomeExtensions.appindicator
     gnomeExtensions.freon
     gnomeExtensions.lock-keys
-    gnomeExtensions.onedrive
     gnomeExtensions.net-speed-simplified
     gnome-settings-daemon
     htop
