@@ -57,11 +57,11 @@ in
   };
 
   services.desktopManager = {
-    gnome.enable = true;
+    gnome.enable = false;
   };
   services.displayManager = {
     gdm = {
-      enable = true;
+      enable = false;
       autoSuspend = false;
       autoLogin = {
         delay = 5;
@@ -72,6 +72,7 @@ in
       user = "guest";
     };
   };
+
 
 
   # Configure keymap in X11
@@ -130,35 +131,35 @@ in
   environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
-    firefox
+#    firefox
     git
-    google-chrome
-    gnomeExtensions.appindicator
-    gnomeExtensions.freon
-    gnomeExtensions.lock-keys
-    gnomeExtensions.net-speed-simplified
-    gnome-settings-daemon
+#    google-chrome
+#    gnomeExtensions.appindicator
+#    gnomeExtensions.freon
+#    gnomeExtensions.lock-keys
+#    gnomeExtensions.net-speed-simplified
+#    gnome-settings-daemon
     htop
     jq
     k9s
     kubectl-neat
     kubectl-cnpg
     kubectx
-    libreoffice
+#    libreoffice
     lm_sensors
-    microsoft-edge
+#    microsoft-edge
     meld
     my-helmfile
     my-kubernetes-helm
-    shutter
-    spotify
-    telegram-desktop
-    terminator
-    thunderbird
-    variety
-    vlc
-    vscode-fhs
-    zoom-us
+#    shutter
+#    spotify
+#    telegram-desktop
+#    terminator
+#    thunderbird
+#    variety
+#    vlc
+#    vscode-fhs
+#    zoom-us
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
